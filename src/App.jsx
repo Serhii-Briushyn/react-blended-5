@@ -5,6 +5,7 @@ import { Header } from './components';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchBaseCurrency } from 'reduxState/operations';
+import { setBaseCurrency } from 'reduxState/currencySlice';
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -16,13 +17,13 @@ export const App = () => {
       maximumAge: 0,
     };
 
-    function success(pos) {
+    const success = pos => {
       dispatch(fetchBaseCurrency(pos.coords));
-    }
+    };
 
-    function error(err) {
-      console.warn(`ERROR(${err.code}): ${err.message}`);
-    }
+    const error = () => {
+      dispatch(setBaseCurrency('USD'));
+    };
 
     navigator.geolocation.getCurrentPosition(success, error, options);
   }, [dispatch]);
